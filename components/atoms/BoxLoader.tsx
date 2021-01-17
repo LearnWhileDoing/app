@@ -1,5 +1,6 @@
-import React               from "react";
-import styled, {keyframes} from "styled-components";
+import React from "react";
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const climbingBox = keyframes`
   0% {
@@ -51,7 +52,7 @@ const _Wrapper = styled.div<{ size: number }>`
   margin-left: -2.7em;
   width: 5.4em;
   height: 5.4em;
-  font-size: ${({size}) => size};
+  font-size: ${({ size }) => size};
 `;
 
 const _Hill = styled.div<{ color: string }>`
@@ -60,7 +61,7 @@ const _Hill = styled.div<{ color: string }>`
   height: 7.1em;
   top: 1.7em;
   left: 1.7em;
-  border-left: 0.25em solid ${({color}) => color};
+  border-left: 0.25em solid ${({ color }) => color};
   transform: rotate(45deg);
 `;
 
@@ -72,19 +73,17 @@ const _Box = styled.div<{ color: string }>`
   width: 1em;
   background-color: transparent;
   border-radius: 15%;
-  border: 0.25em solid ${({color}) => color};
+  border: 0.25em solid ${({ color }) => color};
   transform: translate(0, -1em) rotate(-45deg);
   animation-fill-mode: both;
   animation: ${climbingBox} 2.5s infinite cubic-bezier(0.79, 0, 0.47, 0.97);
 `;
 
-const Loader: React.FC<{ color: string, size: number }> = ({color, size}) => (
+export const BoxLoader: React.FC<{ color: string; size: number }> = ({ color, size }) => (
   <_Container>
     <_Wrapper size={size}>
-      <_Box color={color}/>
-      <_Hill color={color}/>
+      <_Box color={color} />
+      <_Hill color={color} />
     </_Wrapper>
   </_Container>
 );
-
-export default Loader;

@@ -1,17 +1,42 @@
-import {useWindowSize}       from "react-use";
-import {useEffect, useState} from "react";
+import { useWindowSize } from "react-use";
+import React from "react";
+import { PageHeader } from "../atoms";
+import styled from "@emotion/styled";
 
-const WithDrawer = () => {
-  const {width} = useWindowSize();
+const _Wrapper = styled.div({
+  display: "flex",
+  height: "100%",
+  width: "100%",
+  overflowX: "hidden",
+});
 
-  const [showDrawer, setShowDrawer] = useState(false);
+const _Content = styled.div({
+  display: "flex",
+  flexGrow: 1,
+  flexDirection: "column",
+  overflow: "hidden",
+});
 
-  // Wait until after client-side hydration to show
-  useEffect(() => {
-    setShowDrawer(width >= 768);
-  });
+const WithDrawer: React.FC<{ drawer: JSX.Element }> = ({ drawer, children }) => {
+  const { width } = useWindowSize();
 
-  return <div></div>
+  const showDrawer = width >= 768;
+
+  return (
+    <_Wrapper>
+      {showDrawer && drawer}
+      <_Content>
+        <PageHeader />
+        <div
+          css={{
+            overflow: "scroll",
+          }}
+        >
+          {children}
+        </div>
+      </_Content>
+    </_Wrapper>
+  );
 };
 
 export default WithDrawer;

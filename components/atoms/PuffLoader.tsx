@@ -1,90 +1,52 @@
-import React               from "react";
-import styled, {keyframes} from "styled-components";
+import React from "react";
+import { keyframes } from "@emotion/css";
+import styled from "@emotion/styled";
 
-const climbingBox = keyframes`
-  0% {
-    transform: translate(0, -1em) rotate(-45deg)
-  }
-  5% {
-    transform: translate(0, -1em) rotate(-50deg)
-  }
-  20% {
-    transform: translate(1em, -2em) rotate(47deg)
-  }
-  25% {
-    transform: translate(1em, -2em) rotate(45deg)
-  }
-  30% {
-    transform: translate(1em, -2em) rotate(40deg)
-  }
-  45% {
-    transform: translate(2em, -3em) rotate(137deg)
-  }
-  50% {
-    transform: translate(2em, -3em) rotate(135deg)
-  }
-  55% {
-    transform: translate(2em, -3em) rotate(130deg)
-  }
-  70% {
-    transform: translate(3em, -4em) rotate(217deg)
-  }
-  75% {
-    transform: translate(3em, -4em) rotate(220deg)
-  }
-  100% {
-    transform: translate(0, -1em) rotate(-225deg)
-  }
-`;
+const puff = [
+  keyframes`
+    0% {
+      transform: scale(0)
+    }
+    100% {
+      transform: scale(1.0)
+    }
+  `,
+  keyframes`
+    0% {
+      opacity: 1
+    }
+    100% {
+      opacity: 0
+    }
+  `,
+];
 
-const _Container = styled.div`
+const _Container = styled.div<{ size: string }>`
   position: relative;
-  width: 7.1em;
-  height: 7.1em;
+  height: ${({ size }) => size};
+  width: ${({ size }) => size};
 `;
 
-const _Wrapper = styled.div<{ size: number }>`
+const _Puff = styled.div<{ size: string; color: string; i: number }>`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -2.7em;
-  margin-left: -2.7em;
-  width: 5.4em;
-  height: 5.4em;
-  font-size: ${({size}) => size};
-`;
-
-const _Hill = styled.div<{ color: string }>`
-  position: absolute;
-  width: 7.1em;
-  height: 7.1em;
-  top: 1.7em;
-  left: 1.7em;
-  border-left: 0.25em solid ${({color}) => color};
-  transform: rotate(45deg);
-`;
-
-const _Box = styled.div<{ color: string }>`
-  position: absolute;
+  height: ${({ size }) => size};
+  width: ${({ size }) => size};
+  border: thick solid ${({ color }) => color};
+  border-radius: 50%;
+  opacity: 1;
+  top: 0;
   left: 0;
-  bottom: -0.1em;
-  height: 1em;
-  width: 1em;
-  background-color: transparent;
-  border-radius: 15%;
-  border: 0.25em solid ${({color}) => color};
-  transform: translate(0, -1em) rotate(-45deg);
   animation-fill-mode: both;
-  animation: ${climbingBox} 2.5s infinite cubic-bezier(0.79, 0, 0.47, 0.97);
+  animation: ${puff[0]}, ${puff[1]};
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1), cubic-bezier(0.3, 0.61, 0.355, 1);
+  animation-delay: ${({ i }) => (i === 1 ? "-1s" : "0s")};
 `;
 
-const BoxLoader: React.FC<{ color: string, size: number }> = ({color, size}) => (
-  <_Container>
-    <_Wrapper size={size}>
-      <_Box color={color}/>
-      <_Hill color={color}/>
-    </_Wrapper>
+export const PuffLoader: React.FC<{ color: string; size: string }> = ({ color, size }) => (
+  <_Container size={size}>
+    <_Puff size={size} color={color} i={0} />
+    <_Puff size={size} color={color} i={1} />
   </_Container>
 );
-
-export default BoxLoader;

@@ -1,5 +1,6 @@
 import {combineLatest, from, Observable} from "rxjs";
 import {map}                             from "rxjs/operators";
+import firebase                          from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD_NRIyfqcUMee5rzsEGlTY37ho-piHo1g",
@@ -13,11 +14,13 @@ const firebaseConfig = {
 
 export const loadFirebase = () => {
   const app$: Observable<any> = from(import("firebase/app")).pipe(map(v => v.default));
+  const analytics$: Observable<any> = from(import("firebase/analytics"));
   const firestore$: Observable<any> = from(import("firebase/firestore"));
+  const auth$: Observable<any> = from(import("firebase/auth"));
   const rxfire$: Observable<any> = from(import("rxfire/firestore"));
-  return combineLatest([app$, firestore$, rxfire$])
+  return combineLatest([app$, analytics$, firestore$, rxfire$])
     .pipe(
-      map(([firebase, firestore, rxfire]) => {
+      map(([firebase]) => {
         let app;
         if (firebase.apps.length == 0 || firebase.apps[0] == null) {
           app = firebase.initializeApp(firebaseConfig);
@@ -26,7 +29,9 @@ export const loadFirebase = () => {
           app.firestore().enablePersistence();
         } else app = firebase.apps[0];
 
-        return app;
+        firebase.analytics();
+
+        return app as firebase.app.App;
       })
     );
 };

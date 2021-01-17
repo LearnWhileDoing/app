@@ -1,8 +1,6 @@
-import * as yaml from "yaml";
-
-async function fetchTOC(course: string) {
-  const response = await fetch(`https://raw.githubusercontent.com/LearnWhileDoing/${course}/main/toc.yaml`);
-  return yaml.parse(await response.text());
+async function fetchPage(course: string, page: string) {
+  const response = await fetch(`https://raw.githubusercontent.com/LearnWhileDoing/${course}/main/${page}.md`);
+  return await response.text();
 }
 
-export default fetchTOC;
+export default fetchPage;
