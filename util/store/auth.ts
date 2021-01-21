@@ -7,12 +7,7 @@ export class Auth {
 
   constructor() {
     this.provider = new store.firebase.auth.GoogleAuthProvider();
-
-    store.firebase.auth().onAuthStateChanged((user) => {
-      if (!store.userData$.value) {
-        !user ? store.userData$.next(null) : UserData.new(user.uid);
-      }
-    });
+    this.init();
   }
 
   private static async createUserDoc(uid: string, name: string) {
@@ -31,8 +26,21 @@ export class Auth {
   }
 
   async signIn() {
-    const { user, additionalUserInfo } = await store.firebase.auth().signInWithPopup(this.provider);
-    if (additionalUserInfo.isNewUser) await Auth.createUserDoc(user.uid, user.displayName);
-    UserData.new(user.uid);
+    await store.firebase.auth().signInWithRedirect(this.provider);
+  }
+
+  async init() {
+    const redirectResult = await store.firebase.auth().getRedirectResult();
+
+    if (!!redirectResult.user) {
+      const { user, additionalUserInfo } = redirectResult;
+      if (additionalUserInfo.isNewUser) await Auth.createUserDoc(user.uid, user.displayName);
+    }
+
+    store.firebase.auth().onAuthStateChanged((user) => {
+      if (!store.userData$.value) {
+        !user ? store.userData$.next(null) : UserData.new(user.uid);
+      }
+    });
   }
 }
