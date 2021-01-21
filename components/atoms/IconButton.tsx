@@ -5,7 +5,7 @@ import { style, theme } from "@util/theme";
 import { css } from "@emotion/css";
 import Link from "next/link";
 
-const _Button = styled.a<{ offsetLeft: any }>(({ offsetLeft }) =>
+const _Button = styled.a(
   style.merge(
     style.layout({
       display: "flex",
@@ -15,8 +15,6 @@ const _Button = styled.a<{ offsetLeft: any }>(({ offsetLeft }) =>
       justifyContent: "center",
     }),
     style.spacing({
-      paddingLeft: offsetLeft ? theme.spacing[10] : theme.spacing[4],
-      paddingRight: theme.spacing[4],
       paddingTop: theme.spacing["2"],
       paddingBottom: theme.spacing["2"],
     }),
@@ -44,55 +42,31 @@ const _Button = styled.a<{ offsetLeft: any }>(({ offsetLeft }) =>
   )
 );
 
-export const Button: React.FC<{
+export const IconButton: React.FC<{
   className?: string;
-  leading?: React.FC<{ className: string }>;
-  offsetLeft?: boolean;
-  value: string;
+  icon: React.FC<{ className: string }>;
   color: string;
   href?: string;
   onClick?: () => void;
-}> = ({ className, leading, offsetLeft, value, color, href, onClick }) => {
+}> = ({ className, icon, color, href, onClick }) => {
   const button = (
     <_Button
       onClick={onClick}
       href={href}
       target={href?.includes("://") ? "_blank" : "_self"}
-      offsetLeft={offsetLeft || false}
-      css={style.merge(style.typography({ overflow: "nowrap" }), {
+      css={{
         backgroundColor: theme.color[color]["600"],
         ":hover": style.background({ color: theme.color[color]["700"] }),
-      })}
+      }}
       className={className}
     >
-      {leading && (
-        <span
-          css={style.merge(
-            style.layout({
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              display: "flex",
-            }),
-            style.boxAlignment({
-              alignItems: "center",
-            }),
-            style.spacing({
-              paddingLeft: theme.spacing["3"],
-            })
-          )}
-        >
-          {React.createElement(leading, {
-            className: css({
-              height: theme.spacing["5"],
-              width: theme.spacing["5"],
-              color: "white",
-            }),
-          })}
-        </span>
-      )}
-      {value}
+      {React.createElement(icon, {
+        className: css({
+          height: theme.spacing["5"],
+          width: theme.spacing["5"],
+          color: "white",
+        }),
+      })}
       <Ink style={{ color: theme.color[color]["900"] }} />
     </_Button>
   );

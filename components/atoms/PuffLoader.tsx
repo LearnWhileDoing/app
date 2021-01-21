@@ -21,16 +21,16 @@ const puff = [
   `,
 ];
 
-const _Container = styled.div<{ size: string }>`
+const _Container = styled.div<{ size: number }>`
   position: relative;
-  height: ${({ size }) => size};
-  width: ${({ size }) => size};
+  width: 7.1em;
+  height: 7.1em;
 `;
 
-const _Puff = styled.div<{ size: string; color: string; i: number }>`
+const _Puff = styled.div<{ size: number; color: string; i: number }>`
   position: absolute;
-  height: ${({ size }) => size};
-  width: ${({ size }) => size};
+  width: 7.1em;
+  height: 7.1em;
   border: thick solid ${({ color }) => color};
   border-radius: 50%;
   opacity: 1;
@@ -44,7 +44,7 @@ const _Puff = styled.div<{ size: string; color: string; i: number }>`
   animation-delay: ${({ i }) => (i === 1 ? "-1s" : "0s")};
 `;
 
-export const PuffLoader: React.FC<{ color: string; size: string }> = ({ color, size }) => (
+export const PuffLoader: React.FC<{ color: string; size: number }> = ({ color, size }) => (
   <_Container size={size}>
     <_Puff size={size} color={color} i={0} />
     <_Puff size={size} color={color} i={1} />

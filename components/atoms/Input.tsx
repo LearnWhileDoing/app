@@ -46,9 +46,8 @@ const _Input = styled.input(
 
 export const Input: React.FC<{
   className?: string;
-  leading?: React.Component;
   placeholder: string;
-}> = ({ className, leading, placeholder }) => (
+}> = ({ className, placeholder }) => (
   <div className={className}>
     <_Wrapper>
       <_Leading>

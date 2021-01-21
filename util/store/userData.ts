@@ -1,33 +1,35 @@
-import {BehaviorSubject, Subscription} from "rxjs";
-import firebase                        from "firebase";
-import {doc}                           from "rxfire/firestore";
+import { BehaviorSubject, Subscription } from "rxjs";
+import { doc } from "rxfire/firestore";
+import store from "@util/store/index";
 
 export class UserData {
   name: BehaviorSubject<string> = new BehaviorSubject(undefined);
-  username: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
-  currentCourses: BehaviorSubject<string[]> = new BehaviorSubject(undefined);
-  completedCourses: BehaviorSubject<string[]> = new BehaviorSubject(undefined);
+  points: BehaviorSubject<number> = new BehaviorSubject(undefined);
+
+  current: BehaviorSubject<{ [k: string]: string[] }> = new BehaviorSubject(undefined);
+  completed: BehaviorSubject<string[]> = new BehaviorSubject(undefined);
 
   userDoc$?: Subscription;
 
-  constructor(private userId: string, private firestore: firebase.firestore.Firestore) {
-    console.log(userId);
-    if (userId != undefined) this.update(userId);
+  private constructor(private userId: string) {
+    if (userId != undefined) {
+      this.userDoc$ = doc(store.firebase.firestore().doc(`users/${userId}`)).subscribe((snapshot) => {
+        const data = snapshot.data();
+        this.name.next(data.name);
+        this.points.next(data.points);
+        this.current.next(data.current);
+        this.completed.next(data.completed);
+      });
+    }
   }
 
-  update(userId: string) {
-    this.unsubscribe();
-    this.userDoc$ = doc(this.firestore.doc(`users/${userId}`)).subscribe(snapshot => {
-      const data = snapshot.data();
-      this.name.next(data.name);
-      this.username.next(data.username);
-      this.currentCourses.next(data.currentCourses);
-      this.completedCourses.next(data.completedCourses);
-    });
+  static new(userId: string) {
+    store.userData$.value?.unsubscribe();
+    store.userData$.next(new UserData(userId));
   }
 
-  unsubscribe() {
+  private unsubscribe() {
     this.userDoc$?.unsubscribe();
   }
 }

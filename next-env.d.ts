@@ -2,14 +2,10 @@
 /// <reference types="next/types/global" />
 
 import "twin.macro";
-import styledImport, { css as cssImport, CSSProp } from "styled-components";
+import { CSSObject } from "@emotion/css";
 import { DOMAttributes } from "react";
 
-declare module "twin.macro" {
-  // The styled and css imports
-  const styled: typeof styledImport;
-  const css: typeof cssImport;
-}
+type CSSProp = CSSObject | string | CSS.Properties<any, string & {}>;
 
 declare module "react" {
   // The css prop

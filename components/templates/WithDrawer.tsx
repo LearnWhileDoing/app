@@ -1,6 +1,5 @@
 import { useWindowSize } from "react-use";
 import React from "react";
-import { PageHeader } from "../atoms";
 import styled from "@emotion/styled";
 
 const _Wrapper = styled.div({
@@ -25,16 +24,7 @@ const WithDrawer: React.FC<{ drawer: JSX.Element }> = ({ drawer, children }) => 
   return (
     <_Wrapper>
       {showDrawer && drawer}
-      <_Content>
-        <PageHeader />
-        <div
-          css={{
-            overflow: "scroll",
-          }}
-        >
-          {children}
-        </div>
-      </_Content>
+      <_Content>{children}</_Content>
     </_Wrapper>
   );
 };

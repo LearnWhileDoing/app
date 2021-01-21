@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./Button";
+import { Button } from "../atoms/Button";
 import styled from "@emotion/styled";
 import { style, theme } from "@util/theme";
 
@@ -81,7 +81,7 @@ const _Input = styled.input(
   )
 );
 
-export const PageHeader = () => (
+export const AppbarWithSearch = () => (
   <_Wrapper>
     <_InputWrapper>
       <_Leading>

@@ -1,12 +1,12 @@
-import Tag       from "../interfaces/tag";
-import Course    from "@util/interfaces/course";
+import Tag from "../types/tag";
+import Course from "@util/types/course";
 import * as yaml from "yaml";
 
 export interface Database {
-  tags: Promise<{ popular: string[], list: { [k: string]: Tag } }>;
-  basicModules: Promise<{ [k: string]: Course }>;
-  projects: Promise<{ [k: string]: Course }>;
-  authors: Promise<{ [k: string]: string }>
+  tags: { popular: string[]; list: { [k: string]: Tag } };
+  basicModules: { [k: string]: Course };
+  projects: { [k: string]: Course };
+  authors: { [k: string]: string };
 }
 
 export async function fetchFromDatabase(file: string) {
@@ -14,13 +14,16 @@ export async function fetchFromDatabase(file: string) {
   return yaml.parse(await response.text());
 }
 
-export function loadDatabase(): Database {
-  const tags = fetchFromDatabase("tags");
-  const basicModules = fetchFromDatabase("basic-modules");
-  const projects = fetchFromDatabase("projects");
-  const authors = fetchFromDatabase("authors");
+export async function loadDatabase(): Promise<Database> {
+  const tags = await fetchFromDatabase("tags");
+  const basicModules = await fetchFromDatabase("basic-modules");
+  const projects = await fetchFromDatabase("projects");
+  const authors = await fetchFromDatabase("authors");
 
   return {
-    tags, basicModules, projects, authors
+    tags,
+    basicModules,
+    projects,
+    authors,
   };
 }

@@ -1,8 +1,8 @@
 interface CourseTOCSection {
   title: string;
-  list: CourseTOC
+  list: CourseTOC;
 }
 
 export interface CourseTOC {
-  [k: string]: CourseTOCSection
+  [k: string]: Array<string | { [k: string]: string[] }>;
 }

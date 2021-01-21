@@ -3,7 +3,7 @@ import gfm from "remark-gfm";
 import React from "react";
 import { css } from "@emotion/css";
 import { style, theme } from "@util/theme";
-import Switch from "@util/expressions/switch";
+import { Switch } from "@util/expressions/switch";
 import { Code } from "@atlaskit/code";
 
 const margin = style.spacing({
@@ -84,7 +84,7 @@ const renderers = {
   inlineCode: ({ children }) => <Code language={"text"} text={children} />,
 };
 
-const MarkdownRenderer: React.FC<{ markdown: string }> = ({ markdown }) => (
+export const MarkdownRenderer: React.FC<{ markdown: string }> = ({ markdown }) => (
   <>
     <ReactMarkdown plugins={[gfm]} children={markdown} renderers={renderers} />
     <style jsx>{`
@@ -94,5 +94,3 @@ const MarkdownRenderer: React.FC<{ markdown: string }> = ({ markdown }) => (
     `}</style>
   </>
 );
-
-export default MarkdownRenderer;

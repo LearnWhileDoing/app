@@ -43,14 +43,14 @@ const _Icon = styled.div(
   )
 );
 
-const _Text = styled.div(
+const _Text = styled.p(
   style.merge(
     style.spacing({
       margin: 0,
     }),
     style.typography({
       weight: theme.typography.weight.medium,
-      color: theme.color.grey["800"],
+      color: "black",
       size: theme.typography.size.base,
     })
   )
@@ -63,7 +63,7 @@ export const DrawerItem: React.FC<{
   color?: string;
   href?: string;
 }> = ({ leading, text, active, color, href }) => {
-  color = color || "blue";
+  color = color || "indigo";
   return (
     <Link href={href || ""}>
       <_Wrapper
@@ -71,12 +71,12 @@ export const DrawerItem: React.FC<{
         css={style.merge(
           active &&
             style.background({
-              color: tinycolor(theme.color[color]["600"]).setAlpha(0.1).toString(),
+              color: tinycolor(theme.color[color]["500"]).setAlpha(0.1).toString(),
             }),
           {
             ":hover": style.merge(
               style.background({
-                color: tinycolor(theme.color[color]["600"]).setAlpha(0.1).toString(),
+                color: tinycolor(theme.color[color]["500"]).setAlpha(0.1).toString(),
               })
             ),
           }
@@ -85,7 +85,7 @@ export const DrawerItem: React.FC<{
         <_Icon>
           {React.createElement(leading, {
             className: css({
-              color: active && theme.color[color]["800"],
+              color: active && theme.color[color]["700"],
               strokeWidth: 2.5,
               width: theme.spacing["8"],
             }),
@@ -95,13 +95,13 @@ export const DrawerItem: React.FC<{
           css={
             active &&
             style.typography({
-              color: theme.color[color]["800"],
+              color: theme.color[color]["700"],
             })
           }
         >
           {text}
         </_Text>
-        <Ink style={{ color: theme.color[color]["900"] }} />
+        <Ink style={{ color: theme.color[color]["800"] }} />
       </_Wrapper>
     </Link>
   );

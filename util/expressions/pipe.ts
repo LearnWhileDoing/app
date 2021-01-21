@@ -32,7 +32,7 @@ const _segment = function (fn: (input: any, ...args: any[]) => any, child?: Pipe
   };
 };
 
-function Pipe<TInput = any>(target: TInput) {
+export function Pipe<TInput = any>(target: TInput) {
   let segment = _segment((a) => a);
 
   const chain: any = () => {
@@ -48,5 +48,3 @@ function Pipe<TInput = any>(target: TInput) {
   };
   return chain as PipeChain<any, any>;
 }
-
-export default Pipe;

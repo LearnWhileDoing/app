@@ -6,7 +6,7 @@ const _Container = styled.div(
   //tw`h-20 flex justify-center items-center shadow-md`,
   style.merge(
     style.background({
-      color: "#30569F",
+      color: theme.color.indigo["700"],
     }),
     style.layout({
       display: "flex",
@@ -29,7 +29,7 @@ const _Text = styled.p(
     style.typography({
       color: "#AEBFE0",
       size: theme.typography.size["5xl"],
-      weight: theme.typography.weight.extrabold,
+      weight: theme.typography.weight.black,
     }),
     {
       ":hover": style.typography({
@@ -42,7 +42,7 @@ const _Text = styled.p(
   )
 );
 
-export const Logo: React.FC = ({ children }) => (
+export const Logo = () => (
   <_Container>
     <_Text>LWD</_Text>
   </_Container>

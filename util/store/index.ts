@@ -1,32 +1,35 @@
-import {loadFirebase}           from "./firebase";
-import firebase                 from "firebase";
-import {Database, loadDatabase} from "./database";
-import {Auth}                   from "./auth";
-import {BehaviorSubject}        from "rxjs";
-import {UserData}               from "./userData";
+import { loadFirebase } from "./firebase";
+import { Database, loadDatabase } from "./database";
+import { Auth } from "./auth";
+import { UserData } from "./userData";
+import { Firebase } from "@util/types";
+import { BehaviorSubject } from "rxjs";
 
-let store: BehaviorSubject<{
-  app: firebase.app.App,
-  database: Database,
-  auth: Auth,
-  userData: UserData
-}> = new BehaviorSubject(undefined);
+class Store {
+  firebase: Firebase.Default;
+
+  app: Firebase.App;
+
+  database: Database;
+  auth: Auth;
+  userData$: BehaviorSubject<UserData | null> = new BehaviorSubject<UserData>(undefined);
+}
+
+const store = new Store();
 
 export async function initStore() {
-  console.log(1);
-  const app = await loadFirebase().toPromise();
-  console.log(2);
-  const database = loadDatabase();
-  console.log(3);
-  const auth = new Auth(app);
-  console.log(4);
-  const userData = new UserData(auth.currentUser?.uid, app.firestore());
-  console.log(5);
-  store.next({
-    app, database, auth, userData
-  });
-  console.log(6);
+  if (!process.browser) return;
+
+  const { firebase, app } = await loadFirebase();
+  store.firebase = firebase;
+  store.app = app;
+
+  store.database = await loadDatabase();
+  store.auth = new Auth();
+
   return store;
 }
 
 export default store;
+
+export { ShowWaitingProvider, useShowWaiting } from "./showLoading";

@@ -1,9 +1,8 @@
 import React from "react";
-import { PromiseBuilder } from "@components/molecules/builders";
-import store from "@util/store";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { style, theme } from "@util/theme";
+import store from "@util/store";
 
 const _Row = styled.tr(
   style.merge(
@@ -24,7 +23,7 @@ const _Row = styled.tr(
 
 export const CourseItem: React.FC<{ id: string; name: string; tags: string[] }> = ({ id, name, tags }) => (
   <_Row>
-    <td className={"pl-12 pr-6 py-4 whitespace-nowrap w-1/2"}>
+    <td className={"pl-8 pr-6 py-4 whitespace-nowrap w-1/2"}>
       <div className={"h-full flex items-center"}>
         <div className={"flex-shrink-0 h-10 w-10"}>
           <img
@@ -40,42 +39,33 @@ export const CourseItem: React.FC<{ id: string; name: string; tags: string[] }> 
     </td>
     <td className={"flex-wrap pr-6 py-4"}>
       {tags.map((t) => (
-        <PromiseBuilder
-          promise={store.value.database.tags}
-          builder={({ hasData, data }) => {
-            return (
-              hasData && (
-                <span
-                  css={style.merge(
-                    style.spacing({
-                      paddingLeft: theme.spacing["2"],
-                      paddingRight: theme.spacing["2"],
-                      marginLeft: theme.spacing["2"],
-                      marginRight: theme.spacing["2"],
-                    }),
-                    style.layout({
-                      display: "inline-block",
-                    }),
-                    style.typography({
-                      size: theme.typography.size.xs,
-                      leading: theme.typography.leading["5"],
-                      weight: theme.typography.weight.semibold,
-                      color: theme.color[data.list[t].color]["800"],
-                    }),
-                    style.border({
-                      radius: theme.borderRadius.md,
-                    }),
-                    style.background({
-                      color: theme.color[data.list[t].color]["200"],
-                    })
-                  )}
-                >
-                  {t}
-                </span>
-              )
-            );
-          }}
-        />
+        <span
+          css={style.merge(
+            style.spacing({
+              paddingLeft: theme.spacing["2"],
+              paddingRight: theme.spacing["2"],
+              marginLeft: theme.spacing["2"],
+              marginRight: theme.spacing["2"],
+            }),
+            style.layout({
+              display: "inline-block",
+            }),
+            style.typography({
+              size: theme.typography.size.xs,
+              leading: theme.typography.leading["5"],
+              weight: theme.typography.weight.semibold,
+              color: theme.color[store.database.tags.list[t].color]["800"],
+            }),
+            style.border({
+              radius: theme.borderRadius.md,
+            }),
+            style.background({
+              color: theme.color[store.database.tags.list[t].color]["200"],
+            })
+          )}
+        >
+          {t}
+        </span>
       ))}
     </td>
   </_Row>

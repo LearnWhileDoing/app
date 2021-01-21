@@ -4,7 +4,7 @@ interface IfChain<TSuccess, TFailure> {
   else<T>(expr: T, ...fn: Function[]): IfChain<TSuccess, T>;
 }
 
-function If(target: any) {
+export function If(target: any) {
   let thenVal: [any, Function[]] = [undefined, []];
   let elseVal: [any, Function[]] = [undefined, []];
 
@@ -26,5 +26,3 @@ function If(target: any) {
   };
   return chain;
 }
-
-export default If;

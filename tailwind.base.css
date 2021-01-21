@@ -1,3 +1,5 @@
+@import "~@fontsource/ibm-plex-sans/latin-ext.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,7 +7,8 @@
 html,
 body,
 #__next {
-  font-family: "Inter";
+  background-color: #e4e4e7; /* grey-200 */
+  font-family: "IBM Plex Sans";
   height: 100%;
   margin: 0;
   width: 100%;

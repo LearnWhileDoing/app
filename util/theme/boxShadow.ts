@@ -7,4 +7,6 @@ export const boxShadow = {
   "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
   inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
   none: "none",
+
+  left: "-4px 0 6px -1px rgba(0, 0, 0, 0.05), -2px 0 4px -1px rgba(0, 0, 0, 0.03)",
 };

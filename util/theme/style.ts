@@ -1,11 +1,5 @@
-import Switch from "@util/expressions/switch";
+import { Switch } from "@util/expressions";
 import * as CSS from "csstype";
-
-const normalize = (attr: string) =>
-  attr
-    .split(/(?=[A-Z])/)
-    .map((v) => v.toLowerCase())
-    .join("-");
 
 const createObjectStyles = (styles: any) =>
   Object.entries(styles).reduce((acc, style) => {
@@ -38,6 +32,7 @@ export const flexbox: StyleFn<{
   flex: 1 | "auto" | "initial" | "none";
   grow: 1 | 0;
   shrink: 1 | 0;
+  basis: string | number;
 }> = (styles) =>
   Object.entries(styles).reduce((acc, style) => {
     acc[
@@ -70,27 +65,7 @@ export const boxAlignment: StyleFn<{
   Object.entries(styles).reduce((acc, style) => {
     acc[style[0]] = Switch(style[0])
       .case(
-        "justifyContent",
-        Switch(style[1])
-          .case("start", "flex-start")
-          .case("end", "flex-end")
-          .case("center", "center")
-          .case("between", "space-between")
-          .case("around", "space-around")
-          .case("evenly", "space-evenly")()
-      )
-      .case(
-        "alignContent",
-        Switch(style[1])
-          .case("start", "flex-start")
-          .case("end", "flex-end")
-          .case("center", "center")
-          .case("between", "space-between")
-          .case("around", "space-around")
-          .case("evenly", "space-evenly")()
-      )
-      .case(
-        "placeContent",
+        ["justifyContent", "alignContent", "justifyContent"],
         Switch(style[1])
           .case("start", "flex-start")
           .case("end", "flex-end")
@@ -109,12 +84,16 @@ export const spacing: StyleFn<{
   paddingRight: string | number;
   paddingBottom: string | number;
   paddingLeft: string | number;
+  paddingX: string | number;
+  paddingY: string | number;
 
   margin: string | number;
   marginTop: string | number;
   marginRight: string | number;
   marginBottom: string | number;
   marginLeft: string | number;
+  marginX: string | number;
+  marginY: string | number;
 
   spacingX: string | number;
   spacingY: string | number;
@@ -135,6 +114,34 @@ export const spacing: StyleFn<{
           "> * + *": {
             marginTop: style[1],
           },
+        };
+        break;
+      case "paddingX":
+        acc = {
+          ...acc,
+          paddingLeft: style[1],
+          paddingRight: style[1],
+        };
+        break;
+      case "paddingY":
+        acc = {
+          ...acc,
+          paddingTop: style[1],
+          paddingBottom: style[1],
+        };
+        break;
+      case "marginX":
+        acc = {
+          ...acc,
+          marginLeft: style[1],
+          marginRight: style[1],
+        };
+        break;
+      case "marginY":
+        acc = {
+          ...acc,
+          marginTop: style[1],
+          marginBottom: style[1],
         };
         break;
       default:
@@ -170,7 +177,7 @@ export const typography: StyleFn<{
 
   underline: boolean;
 
-  overflow: "truncate" | "ellipsis" | "clip" | "no-wrap";
+  overflow: "truncate" | "ellipsis" | "clip" | "nowrap";
   verticalAlign: "baseline" | "top" | "middle" | "bottom" | "text-top" | "text-bottom";
 }> = (styles) =>
   Object.entries(styles).reduce((acc, style) => {
@@ -215,8 +222,8 @@ export const typography: StyleFn<{
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
           };
-        } else if (style[1] === "no-wrap") {
-          acc.whiteSpace = "no-wrap";
+        } else if (style[1] === "nowrap") {
+          acc.whiteSpace = "nowrap";
         } else {
           acc.textOverflow = style[1];
         }
@@ -361,6 +368,7 @@ export const effects: StyleFn<{
   opacity: string;
   transition: string;
   cursor: string;
+  userSelect: string;
 }> = (styles) => createObjectStyles(styles);
 
 export const merge = (...styles: any[]) =>

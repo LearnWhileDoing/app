@@ -15,15 +15,15 @@ const size = {
 };
 
 const weight = {
-  thin: "100",
-  extralight: "200",
-  light: "300",
-  normal: "400",
-  medium: "500",
-  semibold: "600",
-  bold: "700",
-  extrabold: "800",
-  black: "900",
+  thin: 100,
+  extralight: 200,
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extrabold: 800,
+  black: 900,
 };
 
 const leading = {
@@ -43,4 +43,13 @@ const leading = {
   10: "2.5rem",
 };
 
-export const typography = { size, weight, leading };
+const letterSpacing = {
+  tighter: "-0.05em",
+  tight: "-0.025em",
+  normal: "0em",
+  wide: "0.025em",
+  wider: "0.05em",
+  widest: "0.1em",
+};
+
+export const typography = { size, weight, leading, letterSpacing };

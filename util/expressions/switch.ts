@@ -1,14 +1,12 @@
 interface SwitchChain<TTarget, TResult> {
-  case<R>(expr: TTarget, result: R, ...fn: Function[]): SwitchChain<TTarget, TResult | R>;
+  case<R>(expr: TTarget | TTarget[], result: R, ...fn: Function[]): SwitchChain<TTarget, TResult | R>;
   default<R>(result: R, ...fn: Function[]): SwitchChain<TTarget, TResult | R>;
   (): TResult;
 }
 
-const EMPTY = Symbol();
-
 type Case<T, R> = [T, R, Function[]];
 
-function Switch<TTarget = any>(target: TTarget) {
+export function Switch<TTarget = any>(target: TTarget) {
   const cases: Case<TTarget, any>[] = [];
   let defaultCase: [any, Function[]] = [undefined, []];
 
@@ -24,8 +22,9 @@ function Switch<TTarget = any>(target: TTarget) {
 
     return defaultCase[0];
   };
-  chain.case = <R>(expr: TTarget, result: R, ...fn: Function[]) => {
-    cases.push([expr, result, fn]);
+  chain.case = <R>(expr: TTarget | TTarget[], result: R, ...fn: Function[]) => {
+    if (Array.isArray(expr)) expr.forEach((e) => cases.push([e, result, fn]));
+    else cases.push([expr, result, fn]);
     return chain;
   };
   chain.default = <R>(result: R, ...fn: Function[]) => {
@@ -34,5 +33,3 @@ function Switch<TTarget = any>(target: TTarget) {
   };
   return chain;
 }
-
-export default Switch;
