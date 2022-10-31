@@ -9,8 +9,7 @@ import Course from "~/core/models/Course";
 import CourseIndex from "~/core/models/CourseIndex";
 
 namespace APIService {
-  export const GITHUB_CONTENT_URL =
-    "https://chroline-literate-space-dollop-rqwjqjvj94cpv97-3000.preview.app.github.dev/";
+  export const GITHUB_CONTENT_URL = process.env.NEXT_PUBLIC_GITHUB_CONTENT_URL;
 
   const _fetch = async <T>(path: string) => fetch("/api/" + path).then(v => v.json() as unknown as T);
 
